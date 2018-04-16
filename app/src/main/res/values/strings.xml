@@ -6,4 +6,5 @@
     <string name="add_list_dialog_fragment_tag">add_list</string>
     <string name="empty_list_name_error">Provide list name</string>
     <string name="duplicated_list_name_error">List with that name already exists</string>
+    <string name="shopping_list_id_extra">shoppingListId</string>
 </resources>

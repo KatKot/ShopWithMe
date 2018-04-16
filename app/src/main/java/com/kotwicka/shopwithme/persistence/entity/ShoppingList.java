@@ -22,19 +22,6 @@ public final class ShoppingList {
     @ColumnInfo(name = "is_archived")
     private boolean isArchived;
 
-    public ShoppingList(final long id, final String name, final LocalDate creationDate, final boolean isArchived) {
-        this.id = id;
-        this.name = name;
-        this.creationDate = creationDate;
-        this.isArchived = isArchived;
-    }
-
-    public ShoppingList(final String name) {
-        this.name = name;
-        this.creationDate = new LocalDate();
-        this.isArchived = false;
-    }
-
     public long getId() {
         return id;
     }
@@ -49,5 +36,21 @@ public final class ShoppingList {
 
     public boolean isArchived() {
         return isArchived;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public void setArchived(boolean archived) {
+        isArchived = archived;
     }
 }

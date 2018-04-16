@@ -1,6 +1,7 @@
 package com.kotwicka.shopwithme.shoppinglists.presenter;
 
 import com.kotwicka.shopwithme.shoppinglists.contract.ShoppingListContract;
+import com.kotwicka.shopwithme.shoppinglists.model.ShoppingListId;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -14,12 +15,14 @@ public class ShoppingListPresenter implements ShoppingListContract.Presenter {
 
     private final ShoppingListContract.View view;
     private final ShoppingListContract.Model model;
+    private final ShoppingListId shoppingListId;
 
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public ShoppingListPresenter(final ShoppingListContract.View view, final ShoppingListContract.Model model) {
+    public ShoppingListPresenter(final ShoppingListContract.View view, final ShoppingListContract.Model model, final ShoppingListId shoppingListId) {
         this.view = view;
         this.model = model;
+        this.shoppingListId = shoppingListId;
     }
 
     @Override
@@ -28,6 +31,7 @@ public class ShoppingListPresenter implements ShoppingListContract.Presenter {
             view.showEmptyListNameError();
             return false;
         }
+        view.clearListNameError();
         return true;
     }
 
@@ -40,7 +44,7 @@ public class ShoppingListPresenter implements ShoppingListContract.Presenter {
                     .subscribe(new Action() {
                         @Override
                         public void run() throws Exception {
-                            view.onNewShoppingListSaved(name);
+                            view.onNewShoppingListSaved(shoppingListId.getShoppingListId());
                         }
                     }, new Consumer<Throwable>() {
                         @Override

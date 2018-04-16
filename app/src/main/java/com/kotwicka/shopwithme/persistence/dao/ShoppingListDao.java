@@ -18,7 +18,7 @@ import io.reactivex.Single;
 public interface ShoppingListDao {
 
     @Insert
-    void insertShoppingList(final ShoppingList shoppingList);
+    long insertShoppingList(final ShoppingList shoppingList);
 
     @Update
     void updateShoppingList(final ShoppingList shoppingList);

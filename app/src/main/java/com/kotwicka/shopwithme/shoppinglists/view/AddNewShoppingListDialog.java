@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.kotwicka.shopwithme.R;
@@ -19,7 +20,7 @@ public class AddNewShoppingListDialog extends DialogFragment {
     public interface OnClickAddNewShoppingListListener {
         void onAddNewListClick(View view);
 
-        void onInputChanged(String name);
+        void onInputChanged(String name, View view);
     }
 
     private OnClickAddNewShoppingListListener listener;
@@ -40,12 +41,7 @@ public class AddNewShoppingListDialog extends DialogFragment {
         final LayoutInflater inflater = getActivity().getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.dialog_add_shopping_list, null);
         builder.setView(dialogView)
-                .setPositiveButton(R.string.add_new_shopping_list, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        listener.onAddNewListClick(dialogView);
-                    }
-                })
+                .setPositiveButton(R.string.add_new_shopping_list, null)
                 .setNegativeButton(R.string.cancel_adding_new_list, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -66,9 +62,22 @@ public class AddNewShoppingListDialog extends DialogFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                listener.onInputChanged(s.toString());
+                listener.onInputChanged(s.toString(), dialogView);
             }
         });
-        return builder.create();
+        final AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                positiveButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listener.onAddNewListClick(dialogView);
+                    }
+                });
+            }
+        });
+        return dialog;
     }
 }

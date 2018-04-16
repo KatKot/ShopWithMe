@@ -1,12 +1,10 @@
 package com.kotwicka.shopwithme.shoppinglists.model;
 
-import com.kotwicka.shopwithme.persistence.dao.ShoppingListDao;
 import com.kotwicka.shopwithme.persistence.entity.ShoppingList;
 import com.kotwicka.shopwithme.persistence.repository.ShoppingListRepository;
 import com.kotwicka.shopwithme.shoppinglists.contract.ShoppingListContract;
 
 import io.reactivex.Completable;
-import io.reactivex.functions.Action;
 
 public class ShoppingListModel implements ShoppingListContract.Model {
 
@@ -18,13 +16,8 @@ public class ShoppingListModel implements ShoppingListContract.Model {
 
     @Override
     public Completable saveShoppingList(final String name) {
-        final ShoppingList shoppingList = new ShoppingList(name);
-        return Completable.fromAction(new Action() {
-            @Override
-            public void run() throws Exception {
-                shoppingListRepository.insertShoppingList(shoppingList);
-            }
-        });
+        final ShoppingList shoppingList = ShoppingListCreator.fromName(name);
+        return shoppingListRepository.insertShoppingList(shoppingList);
 
     }
 }
