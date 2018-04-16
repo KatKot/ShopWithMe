@@ -7,7 +7,7 @@ import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
 @Entity(tableName = "shopping_list_item",
-        indices = @Index("list_id"),
+        indices = @Index("shopping_list_id"),
         foreignKeys = @ForeignKey(entity = ShoppingList.class,
                 parentColumns = "id",
                 childColumns = "shopping_list_id",
@@ -25,10 +25,10 @@ public final class ShoppingListItem {
     @ColumnInfo(name = "shopping_list_id")
     private final long shoppingListId;
 
-    public ShoppingListItem(final long id, final String name, final long listId) {
+    public ShoppingListItem(final long id, final String name, final long shoppingListId) {
         this.id = id;
         this.name = name;
-        this.shoppingListId = listId;
+        this.shoppingListId = shoppingListId;
     }
 
     public long getId() {

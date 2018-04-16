@@ -21,9 +21,9 @@ public interface ShoppingListDao {
     @Update
     void updateShoppingList(final ShoppingList shoppingList);
 
-    @Query("SELECT * FROM shopping_list WHERE is_archived == false ORDER BY creation_date")
+    @Query("SELECT * FROM shopping_list WHERE is_archived == 0 ORDER BY creation_date")
     Flowable<List<ShoppingList>> getActiveShoppingLists();
 
-    @Query("SELECT * FROM shopping_list WHERE is_archived == true ORDER BY creation_date")
+    @Query("SELECT * FROM shopping_list WHERE is_archived == 1 ORDER BY creation_date")
     Flowable<List<ShoppingList>> getArchivedShoppingLists();
 }
