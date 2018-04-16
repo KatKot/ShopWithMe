@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.kotwicka.shopwithme.shoppinglists.MainActivity">
+    android:padding="@dimen/layout_padding"
+    tools:context="com.kotwicka.shopwithme.shoppinglists.view.MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -15,4 +16,12 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="showAddNewListDialog"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:srcCompat="@drawable/ic_add" />
 </android.support.constraint.ConstraintLayout>
