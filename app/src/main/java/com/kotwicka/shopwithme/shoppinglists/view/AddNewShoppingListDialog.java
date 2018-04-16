@@ -6,8 +6,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 
 import com.kotwicka.shopwithme.R;
 
@@ -15,6 +18,8 @@ public class AddNewShoppingListDialog extends DialogFragment {
 
     public interface OnClickAddNewShoppingListListener {
         void onAddNewListClick(View view);
+
+        void onInputChanged(String name);
     }
 
     private OnClickAddNewShoppingListListener listener;
@@ -47,6 +52,23 @@ public class AddNewShoppingListDialog extends DialogFragment {
                         AddNewShoppingListDialog.this.getDialog().cancel();
                     }
                 });
+        final EditText editText = dialogView.findViewById(R.id.shopping_list_name_et);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                listener.onInputChanged(s.toString());
+            }
+        });
         return builder.create();
     }
 }

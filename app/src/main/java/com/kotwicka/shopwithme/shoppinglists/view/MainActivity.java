@@ -1,10 +1,8 @@
 package com.kotwicka.shopwithme.shoppinglists.view;
 
+import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
@@ -27,33 +25,22 @@ public class MainActivity extends AppCompatActivity implements AddNewShoppingLis
         setContentView(R.layout.activity_main);
     }
 
-    public void showAddNewListDialog(final View view){
+    public void showAddNewListDialog(final View view) {
         final AddNewShoppingListDialog dialog = new AddNewShoppingListDialog();
         dialog.show(getSupportFragmentManager(), getString(R.string.add_list_dialog_fragment_tag));
     }
 
     @Override
     public void onAddNewListClick(final View view) {
-        this.addNewListTextInputLayout =  view.findViewById(R.id.shopping_list_name_til);
+        this.addNewListTextInputLayout = view.findViewById(R.id.shopping_list_name_til);
         this.addNewListEditText = view.findViewById(R.id.shopping_list_name_et);
-        this.addNewListEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                presenter.validateShoppingListName(s.toString());
-            }
-        });
         final String newListName = addNewListEditText.getText().toString();
         presenter.saveShoppingList(newListName);
+    }
+
+    @Override
+    public void onInputChanged(final String name) {
+        presenter.isValidShoppingList(name);
     }
 
     @Override
@@ -72,7 +59,12 @@ public class MainActivity extends AppCompatActivity implements AddNewShoppingLis
     }
 
     @Override
-    public void onNewShoppingListSaved() {
+    public void onNewShoppingListSaved(final String name) {
+
+    }
+
+    @Override
+    public void showSaveListErrorMessage() {
 
     }
 }

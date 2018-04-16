@@ -9,24 +9,30 @@ import org.joda.time.LocalDate;
 @Entity(tableName = "shopping_list")
 public final class ShoppingList {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    private final long id;
+    private long id;
 
     @ColumnInfo(name = "name")
-    private final String name;
+    private String name;
 
     @ColumnInfo(name = "creation_date")
-    private final LocalDate creationDate;
+    private LocalDate creationDate;
 
     @ColumnInfo(name = "is_archived")
-    private final boolean isArchived;
+    private boolean isArchived;
 
     public ShoppingList(final long id, final String name, final LocalDate creationDate, final boolean isArchived) {
         this.id = id;
         this.name = name;
         this.creationDate = creationDate;
         this.isArchived = isArchived;
+    }
+
+    public ShoppingList(final String name) {
+        this.name = name;
+        this.creationDate = new LocalDate();
+        this.isArchived = false;
     }
 
     public long getId() {

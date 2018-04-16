@@ -11,6 +11,8 @@ import com.kotwicka.shopwithme.persistence.entity.ShoppingList;
 import java.util.List;
 
 import io.reactivex.Flowable;
+import io.reactivex.Maybe;
+import io.reactivex.Single;
 
 @Dao
 public interface ShoppingListDao {
@@ -20,6 +22,9 @@ public interface ShoppingListDao {
 
     @Update
     void updateShoppingList(final ShoppingList shoppingList);
+
+    @Query("SELECT * FROM shopping_list WHERE name == :name LIMIT 1")
+    Maybe<ShoppingList> getShoppingList(final String name);
 
     @Query("SELECT * FROM shopping_list WHERE is_archived == 0 ORDER BY creation_date")
     Flowable<List<ShoppingList>> getActiveShoppingLists();
