@@ -17,7 +17,7 @@ public interface ShoppingListContract {
 
         void clearListNameError();
 
-        void onNewShoppingListSaved(final long id);
+        void onNewShoppingListSaved(final long id, final String name);
 
         void showSaveListErrorMessage();
 

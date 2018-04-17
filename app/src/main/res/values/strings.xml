@@ -7,4 +7,6 @@
     <string name="empty_list_name_error">Provide list name</string>
     <string name="duplicated_list_name_error">List with that name already exists</string>
     <string name="shopping_list_id_extra">shoppingListId</string>
+    <string name="shopping_list_name_extra">shoppingListName</string>
+    <string name="add_new_list_item">+ Add new item</string>
 </resources>

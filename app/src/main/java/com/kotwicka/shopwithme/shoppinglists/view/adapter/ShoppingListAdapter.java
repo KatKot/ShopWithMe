@@ -17,9 +17,15 @@ import butterknife.ButterKnife;
 
 public class ShoppingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    public interface OnShoppingListClickedListener {
+        void onShoppingListClicked(final String name, final long id);
+    }
+
+    private final OnShoppingListClickedListener listener;
     private final List<ShoppingListViewModel> shoppingLists;
 
-    public ShoppingListAdapter() {
+    public ShoppingListAdapter(OnShoppingListClickedListener listener) {
+        this.listener = listener;
         this.shoppingLists = Lists.newArrayList();
     }
 
@@ -32,7 +38,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ShoppingListViewHolder shoppingListViewHolder = (ShoppingListViewHolder) holder;
-        shoppingListViewHolder.bind(shoppingLists.get(position));
+        shoppingListViewHolder.bind(shoppingLists.get(position), listener);
     }
 
     @Override
@@ -66,9 +72,15 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ButterKnife.bind(this, itemView);
         }
 
-        public void bind(final ShoppingListViewModel shoppingListViewModel) {
+        public void bind(final ShoppingListViewModel shoppingListViewModel, final OnShoppingListClickedListener listener) {
             shoppingListName.setText(shoppingListViewModel.getName());
             shoppingListCreationDate.setText(shoppingListViewModel.getCreationDate().toString());
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onShoppingListClicked(shoppingListViewModel.getName(), shoppingListViewModel.getId());
+                }
+            });
         }
     }
 }

@@ -17,19 +17,14 @@ public final class ShoppingListItem {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    private final long id;
+    private long id;
 
     @ColumnInfo(name = "name")
-    private final String name;
+    private String name;
 
     @ColumnInfo(name = "shopping_list_id")
-    private final long shoppingListId;
+    private long shoppingListId;
 
-    public ShoppingListItem(final long id, final String name, final long shoppingListId) {
-        this.id = id;
-        this.name = name;
-        this.shoppingListId = shoppingListId;
-    }
 
     public long getId() {
         return id;
@@ -41,5 +36,17 @@ public final class ShoppingListItem {
 
     public long getShoppingListId() {
         return shoppingListId;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setShoppingListId(long shoppingListId) {
+        this.shoppingListId = shoppingListId;
     }
 }

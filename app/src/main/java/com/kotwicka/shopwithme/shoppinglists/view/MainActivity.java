@@ -25,7 +25,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements AddNewShoppingListDialog.OnClickAddNewShoppingListListener, ShoppingListContract.View {
+public class MainActivity extends AppCompatActivity implements AddNewShoppingListDialog.OnClickAddNewShoppingListListener, ShoppingListAdapter.OnShoppingListClickedListener, ShoppingListContract.View {
 
     @BindView(R.id.shopping_lists_rv)
     RecyclerView recyclerView;
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements AddNewShoppingLis
     }
 
     private void initializeViews() {
-        shoppingListAdapter = new ShoppingListAdapter();
+        shoppingListAdapter = new ShoppingListAdapter(this);
         recyclerView.setAdapter(shoppingListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
@@ -107,11 +107,9 @@ public class MainActivity extends AppCompatActivity implements AddNewShoppingLis
     }
 
     @Override
-    public void onNewShoppingListSaved(final long id) {
+    public void onNewShoppingListSaved(final long id, final String name) {
         addNewShoppingListDialog.dismiss();
-        final Intent intent = new Intent(this, ShoppingItemsActivity.class);
-        intent.putExtra(getString(R.string.shopping_list_id_extra), id);
-        startActivity(intent);
+        startShoppingItemActivity(name, id);
     }
 
     @Override
@@ -125,4 +123,15 @@ public class MainActivity extends AppCompatActivity implements AddNewShoppingLis
         shoppingListAdapter.setLists(shoppingListViewModel);
     }
 
+    @Override
+    public void onShoppingListClicked(final String name, final long id) {
+        startShoppingItemActivity(name, id);
+    }
+
+    private void startShoppingItemActivity(final String name, final long id) {
+        final Intent intent = new Intent(this, ShoppingItemsActivity.class);
+        intent.putExtra(getString(R.string.shopping_list_id_extra), id);
+        intent.putExtra(getString(R.string.shopping_list_name_extra), name);
+        startActivity(intent);
+    }
 }

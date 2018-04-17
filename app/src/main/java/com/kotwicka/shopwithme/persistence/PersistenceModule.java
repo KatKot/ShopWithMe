@@ -4,6 +4,7 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 
 import com.kotwicka.shopwithme.persistence.db.ShoppingDatabase;
+import com.kotwicka.shopwithme.persistence.repository.ShoppingItemRepository;
 import com.kotwicka.shopwithme.persistence.repository.ShoppingListRepository;
 import com.kotwicka.shopwithme.shoppinglists.model.ShoppingListId;
 
@@ -27,6 +28,12 @@ public class PersistenceModule {
     @Singleton
     public ShoppingListRepository providesShoppingListRepository(final ShoppingDatabase shoppingDatabase, final ShoppingListId shoppingListId) {
         return new ShoppingListRepository(shoppingDatabase, shoppingListId);
+    }
+
+    @Provides
+    @Singleton
+    public ShoppingItemRepository providesShoppingListItemRepository(final ShoppingDatabase shoppingDatabase) {
+        return new ShoppingItemRepository(shoppingDatabase);
     }
 
     @Provides

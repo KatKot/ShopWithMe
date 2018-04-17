@@ -35,7 +35,7 @@ public class ShoppingListModel implements ShoppingListContract.Model {
                                 .map(new Function<ShoppingList, ShoppingListViewModel>() {
                                     @Override
                                     public ShoppingListViewModel apply(ShoppingList shoppingList) throws Exception {
-                                        return new ShoppingListViewModel(shoppingList.getName(), shoppingList.getCreationDate());
+                                        return new ShoppingListViewModel(shoppingList.getName(), shoppingList.getCreationDate(), shoppingList.getId());
                                     }
                                 }).toList().toFlowable();
                     }

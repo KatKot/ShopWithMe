@@ -49,7 +49,7 @@ public class ShoppingListPresenter implements ShoppingListContract.Presenter {
                     .subscribe(new Action() {
                         @Override
                         public void run() throws Exception {
-                            view.onNewShoppingListSaved(shoppingListId.getShoppingListId());
+                            view.onNewShoppingListSaved(shoppingListId.getShoppingListId(), name);
                         }
                     }, new Consumer<Throwable>() {
                         @Override
