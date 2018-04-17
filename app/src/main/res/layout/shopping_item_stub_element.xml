@@ -21,6 +21,8 @@
         android:layout_height="40dp"
         android:layout_weight="0"
         android:background="@drawable/ic_check"
+        android:padding="20dp"
+        android:layout_gravity="center_vertical"
         android:visibility="invisible" />
 
 </LinearLayout>
