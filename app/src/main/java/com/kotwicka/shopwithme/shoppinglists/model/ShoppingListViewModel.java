@@ -24,6 +24,10 @@ public class ShoppingListViewModel {
         return creationDate.toLocalDate();
     }
 
+    public DateTime getCreationDateTime() {
+        return creationDate;
+    }
+
     public long getId() {
         return id;
     }

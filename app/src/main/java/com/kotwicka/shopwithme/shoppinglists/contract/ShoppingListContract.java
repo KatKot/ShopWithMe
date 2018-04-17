@@ -13,8 +13,6 @@ public interface ShoppingListContract {
     interface View {
         void showEmptyListNameError();
 
-        void showDuplicatedListNameError();
-
         void clearListNameError();
 
         void onNewShoppingListSaved(final long id, final String name);
@@ -31,10 +29,13 @@ public interface ShoppingListContract {
 
         void fetchActiveShoppingLists();
 
+        void archiveShoppingList(final ShoppingListViewModel shoppingListViewModel);
+
         void onDetachView();
     }
 
     interface Model {
+        Completable archiveShoppingList(final ShoppingListViewModel shoppingListViewModel);
         Completable saveShoppingList(final String name);
         Flowable<List<ShoppingListViewModel>> getActiveShoppingLists();
     }

@@ -97,11 +97,6 @@ public class MainActivity extends AppCompatActivity implements AddNewShoppingLis
     }
 
     @Override
-    public void showDuplicatedListNameError() {
-        addNewListTextInputLayout.setError(getString(R.string.duplicated_list_name_error));
-    }
-
-    @Override
     public void clearListNameError() {
         addNewListTextInputLayout.setErrorEnabled(false);
     }

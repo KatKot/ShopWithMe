@@ -19,6 +19,13 @@ public class ShoppingListModel implements ShoppingListContract.Model {
     }
 
     @Override
+    public Completable archiveShoppingList(final ShoppingListViewModel shoppingListViewModel) {
+        final ShoppingList shoppingList = ShoppingListCreator.fromVieModel(shoppingListViewModel);
+        shoppingList.setArchived(true);
+        return shoppingListRepository.updateShoppingList(shoppingList);
+    }
+
+    @Override
     public Completable saveShoppingList(final String name) {
         final ShoppingList shoppingList = ShoppingListCreator.fromName(name);
         return shoppingListRepository.insertShoppingList(shoppingList);

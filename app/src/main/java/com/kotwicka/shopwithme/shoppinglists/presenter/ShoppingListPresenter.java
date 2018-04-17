@@ -81,6 +81,19 @@ public class ShoppingListPresenter implements ShoppingListContract.Presenter {
     }
 
     @Override
+    public void archiveShoppingList(final ShoppingListViewModel shoppingListViewModel) {
+        compositeDisposable.add(model.archiveShoppingList(shoppingListViewModel)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        Log.d("ShoppingLisPresenter", "Archived shopping list : " + shoppingListViewModel.getName());
+                    }
+                }));
+    }
+
+    @Override
     public void onDetachView() {
         if (compositeDisposable != null) {
             compositeDisposable.dispose();

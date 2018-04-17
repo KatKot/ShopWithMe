@@ -33,4 +33,17 @@ public class ShoppingListRepository {
     public Flowable<List<ShoppingList>> getActiveShoppingLists() {
         return shoppingDatabase.shoppingListDao().getActiveShoppingLists();
     }
+
+    public Flowable<List<ShoppingList>> getArchivedShoppingLists() {
+        return shoppingDatabase.shoppingListDao().getArchivedShoppingLists();
+    }
+
+    public Completable updateShoppingList(final ShoppingList shoppingList) {
+        return Completable.fromAction(new Action() {
+            @Override
+            public void run() throws Exception {
+                shoppingDatabase.shoppingListDao().updateShoppingList(shoppingList);
+            }
+        });
+    }
 }
