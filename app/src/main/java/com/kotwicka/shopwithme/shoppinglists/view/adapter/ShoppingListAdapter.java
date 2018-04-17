@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.common.collect.Lists;
@@ -46,6 +47,10 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return shoppingLists.size();
     }
 
+    public ShoppingListViewModel get(final int index) {
+        return shoppingLists.get(index);
+    }
+
     public void add(final ShoppingListViewModel shoppingListViewModel) {
         shoppingLists.add(shoppingListViewModel);
         notifyItemInserted(shoppingLists.size() - 1);
@@ -67,6 +72,9 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         @BindView(R.id.shopping_list_creation_date)
         TextView shoppingListCreationDate;
 
+        @BindView(R.id.shopping_list_element_foreground_view_ll)
+        LinearLayout foregroundView;
+
         public ShoppingListViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -81,6 +89,10 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     listener.onShoppingListClicked(shoppingListViewModel.getName(), shoppingListViewModel.getId());
                 }
             });
+        }
+
+        public LinearLayout getForegroundView() {
+            return foregroundView;
         }
     }
 }

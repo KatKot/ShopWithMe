@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -17,6 +18,7 @@ import com.kotwicka.shopwithme.shoppingitems.view.ShoppingItemsActivity;
 import com.kotwicka.shopwithme.shoppinglists.contract.ShoppingListContract;
 import com.kotwicka.shopwithme.shoppinglists.model.ShoppingListViewModel;
 import com.kotwicka.shopwithme.shoppinglists.view.adapter.ShoppingListAdapter;
+import com.kotwicka.shopwithme.shoppinglists.view.helper.ShoppingListTouchHelper;
 
 import java.util.List;
 
@@ -25,7 +27,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements AddNewShoppingListDialog.OnClickAddNewShoppingListListener, ShoppingListAdapter.OnShoppingListClickedListener, ShoppingListContract.View {
+public class MainActivity extends AppCompatActivity implements ShoppingListTouchHelper.OnSwipedListener, AddNewShoppingListDialog.OnClickAddNewShoppingListListener, ShoppingListAdapter.OnShoppingListClickedListener, ShoppingListContract.View {
 
     @BindView(R.id.shopping_lists_rv)
     RecyclerView recyclerView;
@@ -61,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements AddNewShoppingLis
         recyclerView.setAdapter(shoppingListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        new ItemTouchHelper(new ShoppingListTouchHelper(0, ItemTouchHelper.LEFT, this)).attachToRecyclerView(recyclerView);
     }
 
     private void fetchShoppingLists() {
@@ -128,5 +131,13 @@ public class MainActivity extends AppCompatActivity implements AddNewShoppingLis
         intent.putExtra(getString(R.string.shopping_list_id_extra), id);
         intent.putExtra(getString(R.string.shopping_list_name_extra), name);
         startActivity(intent);
+    }
+
+    @Override
+    public void onSwiped(final int position) {
+        if (position < shoppingListAdapter.getItemCount()) {
+            final ShoppingListViewModel shoppingList = shoppingListAdapter.get(position);
+            presenter.archiveShoppingList(shoppingList);
+        }
     }
 }
