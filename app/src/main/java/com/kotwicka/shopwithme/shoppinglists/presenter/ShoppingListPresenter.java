@@ -1,9 +1,14 @@
 package com.kotwicka.shopwithme.shoppinglists.presenter;
 
+import android.util.Log;
+
 import com.kotwicka.shopwithme.shoppinglists.contract.ShoppingListContract;
 import com.kotwicka.shopwithme.shoppinglists.model.ShoppingListId;
+import com.kotwicka.shopwithme.shoppinglists.model.ShoppingListViewModel;
 
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -53,6 +58,26 @@ public class ShoppingListPresenter implements ShoppingListContract.Presenter {
                         }
                     }));
         }
+    }
+
+    @Override
+    public void fetchActiveShoppingLists() {
+        Log.d("Presenter", "Fetching..");
+        compositeDisposable.add(model.getActiveShoppingLists()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<ShoppingListViewModel>>() {
+                    @Override
+                    public void accept(List<ShoppingListViewModel> shoppingListViewModels) throws Exception {
+                        Log.d("Presenteer", "Got shopping lists : " + shoppingListViewModels.size());
+                        view.setShoppingLists(shoppingListViewModels);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e("Presenter", throwable.getMessage(), throwable);
+                    }
+                }));
     }
 
     @Override

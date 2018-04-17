@@ -4,6 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -11,10 +15,20 @@ import com.kotwicka.shopwithme.R;
 import com.kotwicka.shopwithme.app.ShopWithMeApp;
 import com.kotwicka.shopwithme.shoppingitems.view.ShoppingItemsActivity;
 import com.kotwicka.shopwithme.shoppinglists.contract.ShoppingListContract;
+import com.kotwicka.shopwithme.shoppinglists.model.ShoppingListViewModel;
+import com.kotwicka.shopwithme.shoppinglists.view.adapter.ShoppingListAdapter;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity implements AddNewShoppingListDialog.OnClickAddNewShoppingListListener, ShoppingListContract.View {
+
+    @BindView(R.id.shopping_lists_rv)
+    RecyclerView recyclerView;
 
     @Inject
     ShoppingListContract.Presenter presenter;
@@ -23,12 +37,34 @@ public class MainActivity extends AppCompatActivity implements AddNewShoppingLis
     private EditText addNewListEditText;
     private AddNewShoppingListDialog addNewShoppingListDialog;
 
+    private ShoppingListAdapter shoppingListAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        ButterKnife.bind(this);
         ShopWithMeApp.get().withShoppingListComponent(this).inject(this);
+        initializeViews();
+        fetchShoppingLists();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.onDetachView();
+    }
+
+    private void initializeViews() {
+        shoppingListAdapter = new ShoppingListAdapter();
+        recyclerView.setAdapter(shoppingListAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+    }
+
+    private void fetchShoppingLists() {
+        Log.d("MAinActivity", "Fetching...");
+        presenter.fetchActiveShoppingLists();
     }
 
     public void showAddNewListDialog(final View view) {
@@ -81,4 +117,11 @@ public class MainActivity extends AppCompatActivity implements AddNewShoppingLis
     public void showSaveListErrorMessage() {
 
     }
+
+    @Override
+    public void setShoppingLists(List<ShoppingListViewModel> shoppingListViewModel) {
+        Log.d("MAinActivity", "Shopping lists size : " + shoppingListViewModel.size());
+        shoppingListAdapter.setLists(shoppingListViewModel);
+    }
+
 }

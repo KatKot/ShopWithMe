@@ -4,7 +4,7 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
-import org.joda.time.LocalDate;
+import org.joda.time.DateTime;
 
 @Entity(tableName = "shopping_list")
 public final class ShoppingList {
@@ -17,7 +17,7 @@ public final class ShoppingList {
     private String name;
 
     @ColumnInfo(name = "creation_date")
-    private LocalDate creationDate;
+    private DateTime creationDate;
 
     @ColumnInfo(name = "is_archived")
     private boolean isArchived;
@@ -30,7 +30,7 @@ public final class ShoppingList {
         return name;
     }
 
-    public LocalDate getCreationDate() {
+    public DateTime getCreationDate() {
         return creationDate;
     }
 
@@ -46,7 +46,7 @@ public final class ShoppingList {
         this.name = name;
     }
 
-    public void setCreationDate(LocalDate creationDate) {
+    public void setCreationDate(DateTime creationDate) {
         this.creationDate = creationDate;
     }
 

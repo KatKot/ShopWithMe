@@ -4,7 +4,10 @@ import com.kotwicka.shopwithme.persistence.db.ShoppingDatabase;
 import com.kotwicka.shopwithme.persistence.entity.ShoppingList;
 import com.kotwicka.shopwithme.shoppinglists.model.ShoppingListId;
 
+import java.util.List;
+
 import io.reactivex.Completable;
+import io.reactivex.Flowable;
 import io.reactivex.functions.Action;
 
 public class ShoppingListRepository {
@@ -25,5 +28,9 @@ public class ShoppingListRepository {
                 shoppingListId.setShoppingListId(id);
             }
         });
+    }
+
+    public Flowable<List<ShoppingList>> getActiveShoppingLists() {
+        return shoppingDatabase.shoppingListDao().getActiveShoppingLists();
     }
 }

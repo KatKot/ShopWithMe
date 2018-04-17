@@ -2,7 +2,7 @@ package com.kotwicka.shopwithme.shoppinglists.model;
 
 import com.kotwicka.shopwithme.persistence.entity.ShoppingList;
 
-import org.joda.time.LocalDate;
+import org.joda.time.DateTime;
 
 public final class ShoppingListCreator {
 
@@ -13,7 +13,7 @@ public final class ShoppingListCreator {
     public static ShoppingList fromName(final String name) {
         final ShoppingList shoppingList = new ShoppingList();
         shoppingList.setArchived(false);
-        shoppingList.setCreationDate(LocalDate.now());
+        shoppingList.setCreationDate(DateTime.now());
         shoppingList.setName(name);
         return shoppingList;
     }
