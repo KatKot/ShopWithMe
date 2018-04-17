@@ -27,7 +27,7 @@ public class ShoppingItemModel implements ShoppingItemContract.Model {
                         return Flowable.fromIterable(shoppingListItems).map(new Function<ShoppingListItem, ShoppingItemViewModel>() {
                             @Override
                             public ShoppingItemViewModel apply(ShoppingListItem item) throws Exception {
-                                return new ShoppingItemViewModel(item.getName());
+                                return new ShoppingItemViewModel(item.getName(), item.getId());
                             }
                         }).toList().toFlowable();
                     }
@@ -37,5 +37,10 @@ public class ShoppingItemModel implements ShoppingItemContract.Model {
     @Override
     public Completable saveShoppingItem(final long listId, final String shoppingItemName) {
         return shoppingListItemRepository.insertShoppingListItem(ShoppingListItemCreator.fromNameAndListId(shoppingItemName, listId));
+    }
+
+    @Override
+    public Completable deleteShoppingListItem(final ShoppingItemViewModel shoppingItemViewModel, final long listId) {
+        return shoppingListItemRepository.deleteShoppingListItem(ShoppingListItemCreator.fromViewModel(shoppingItemViewModel, listId));
     }
 }

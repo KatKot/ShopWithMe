@@ -21,6 +21,7 @@ public interface ShoppingItemContract {
 
         void onDetachView();
 
+        void deleteShoppingListItem(final ShoppingItemViewModel shoppingItemViewModel, final long listId);
     }
 
     interface Model {
@@ -28,5 +29,7 @@ public interface ShoppingItemContract {
         Flowable<List<ShoppingItemViewModel>> getShoppingItems(final long listId);
 
         Completable saveShoppingItem(final long listId, final String shoppingItemName);
+
+        Completable deleteShoppingListItem(final ShoppingItemViewModel shoppingItemViewModel, final long listId);
     }
 }

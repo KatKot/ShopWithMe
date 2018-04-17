@@ -26,6 +26,15 @@ public class ShoppingItemRepository {
         });
     }
 
+    public Completable deleteShoppingListItem(final ShoppingListItem shoppingListItem) {
+        return Completable.fromAction(new Action() {
+            @Override
+            public void run() throws Exception {
+                shoppingDatabase.shoppingListItemDao().deleteShoppingListItem(shoppingListItem);
+            }
+        });
+    }
+
     public Flowable<List<ShoppingListItem>> getShoppingListItems(final long shoppingListId) {
         return shoppingDatabase.shoppingListItemDao().getItemsForShoppingList(shoppingListId);
     }

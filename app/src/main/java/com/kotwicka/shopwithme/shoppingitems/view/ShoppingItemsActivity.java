@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 
 import com.kotwicka.shopwithme.R;
@@ -11,6 +12,8 @@ import com.kotwicka.shopwithme.app.ShopWithMeApp;
 import com.kotwicka.shopwithme.shoppingitems.adapter.ShoppingItemAdapter;
 import com.kotwicka.shopwithme.shoppingitems.contract.ShoppingItemContract;
 import com.kotwicka.shopwithme.shoppingitems.model.ShoppingItemViewModel;
+import com.kotwicka.shopwithme.shoppingitems.view.helper.ShoppingItemTouchHelper;
+import com.kotwicka.shopwithme.shoppinglists.view.helper.ShoppingListTouchHelper;
 
 import java.util.List;
 
@@ -19,7 +22,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ShoppingItemsActivity extends AppCompatActivity implements ShoppingItemContract.View, ShoppingItemAdapter.OnAcceptItemButtonClickedListener {
+public class ShoppingItemsActivity extends AppCompatActivity implements ShoppingItemTouchHelper.OnSwipedListener, ShoppingItemContract.View, ShoppingItemAdapter.OnAcceptItemButtonClickedListener {
 
     @BindView(R.id.shopping_items_rv)
     RecyclerView recyclerView;
@@ -59,6 +62,7 @@ public class ShoppingItemsActivity extends AppCompatActivity implements Shopping
         adapter = new ShoppingItemAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        new ItemTouchHelper(new ShoppingItemTouchHelper(0, ItemTouchHelper.LEFT, this)).attachToRecyclerView(recyclerView);
     }
 
 
@@ -72,5 +76,13 @@ public class ShoppingItemsActivity extends AppCompatActivity implements Shopping
     public void setShoppingItems(final List<ShoppingItemViewModel> shoppingItems) {
         Log.d("ShoppingItemsActivity", "Setting Shopping ITems " + shoppingItems.size());
         adapter.setShoppingItems(shoppingItems);
+    }
+
+
+    @Override
+    public void onSwiped(final int position) {
+        if (position < adapter.getItemCount()) {
+            presenter.deleteShoppingListItem(adapter.get(position), shoppingListId);
+        }
     }
 }

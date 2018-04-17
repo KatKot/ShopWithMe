@@ -61,9 +61,23 @@ public class ShoppingItemPresenter implements ShoppingItemContract.Presenter {
     }
 
     @Override
+    public void deleteShoppingListItem(final ShoppingItemViewModel shoppingItemViewModel, final long listId) {
+        compositeDisposable.add(model.deleteShoppingListItem(shoppingItemViewModel, listId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        Log.d("ShoppingItemPresenter", "Deleted element :" + shoppingItemViewModel.getName());
+                    }
+                }));
+    }
+
+    @Override
     public void onDetachView() {
         if (compositeDisposable != null) {
             compositeDisposable.dispose();
         }
     }
+
 }

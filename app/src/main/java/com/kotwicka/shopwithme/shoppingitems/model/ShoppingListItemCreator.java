@@ -14,4 +14,12 @@ public final class ShoppingListItemCreator {
         shoppingListItem.setShoppingListId(shoppingListId);
         return shoppingListItem;
     }
+
+    public static ShoppingListItem fromViewModel(final ShoppingItemViewModel viewModel, final long listId) {
+        final ShoppingListItem shoppingListItem = new ShoppingListItem();
+        shoppingListItem.setName(viewModel.getName());
+        shoppingListItem.setShoppingListId(listId);
+        shoppingListItem.setId(viewModel.getId());
+        return shoppingListItem;
+    }
 }

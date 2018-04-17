@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.common.collect.Lists;
@@ -77,6 +78,10 @@ public class ShoppingItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return shoppingItems.size();
     }
 
+    public ShoppingItemViewModel get(final int position) {
+        return shoppingItems.get(position);
+    }
+
     @Override
     public int getItemViewType(int position) {
         return shoppingItems.get(position) instanceof ShoppingItemStub ? ViewHolderType.STUB.getType() : ViewHolderType.ITEM.getType();
@@ -88,10 +93,13 @@ public class ShoppingItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         notifyItemInserted(shoppingItems.size() - 1);
     }
 
-    static class ItemViewHolder extends RecyclerView.ViewHolder {
+    public static class ItemViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.list_item_name)
         TextView listItemNameTextView;
+
+        @BindView(R.id.shopping_item_element_foreground_view_ll)
+        LinearLayout foregroundView;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
@@ -101,9 +109,13 @@ public class ShoppingItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public void bind(final ShoppingItemViewModel shoppingListItemViewModel) {
             listItemNameTextView.setText(shoppingListItemViewModel.getName());
         }
+
+        public LinearLayout getForegroundView() {
+            return foregroundView;
+        }
     }
 
-    static class StubItemViewHolder extends RecyclerView.ViewHolder {
+    public static class StubItemViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.list_item_stub)
         EditText listItemStubEditText;
