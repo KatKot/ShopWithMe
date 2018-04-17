@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements AddNewShoppingLis
     protected void onDestroy() {
         super.onDestroy();
         presenter.onDetachView();
+        ShopWithMeApp.get().clearShoppingListComponent();
     }
 
     private void initializeViews() {
