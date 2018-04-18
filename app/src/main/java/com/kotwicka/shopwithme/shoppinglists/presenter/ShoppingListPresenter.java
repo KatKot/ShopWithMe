@@ -22,7 +22,8 @@ public class ShoppingListPresenter implements ShoppingListContract.Presenter {
     private final ShoppingListContract.Model model;
     private final ShoppingListId shoppingListId;
 
-    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private CompositeDisposable flowablesDisposable = new CompositeDisposable();
+    private CompositeDisposable completablesDisposable = new CompositeDisposable();
 
     public ShoppingListPresenter(final ShoppingListContract.View view, final ShoppingListContract.Model model, final ShoppingListId shoppingListId) {
         this.view = view;
@@ -43,7 +44,7 @@ public class ShoppingListPresenter implements ShoppingListContract.Presenter {
     @Override
     public void saveShoppingList(final String name) {
         if (isValidShoppingList(name)) {
-            compositeDisposable.add(model.saveShoppingList(name)
+            completablesDisposable.add(model.saveShoppingList(name)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Action() {
@@ -63,6 +64,8 @@ public class ShoppingListPresenter implements ShoppingListContract.Presenter {
     @Override
     public void fetchShoppingLists(final boolean shouldFetchActiveLists) {
         Log.d("Presenter", "Fetching..");
+        flowablesDisposable.dispose();
+        flowablesDisposable = new CompositeDisposable();
         if (shouldFetchActiveLists) {
             fetchActiveShoppingLists();
         } else {
@@ -72,7 +75,7 @@ public class ShoppingListPresenter implements ShoppingListContract.Presenter {
     }
 
     private void fetchArchivedShoppingLists() {
-        compositeDisposable.add(model.getArchiveShoppingLists()
+        flowablesDisposable.add(model.getArchiveShoppingLists()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<ShoppingListViewModel>>() {
@@ -84,7 +87,7 @@ public class ShoppingListPresenter implements ShoppingListContract.Presenter {
     }
 
     private void fetchActiveShoppingLists() {
-        compositeDisposable.add(model.getActiveShoppingLists()
+        flowablesDisposable.add(model.getActiveShoppingLists()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<ShoppingListViewModel>>() {
@@ -103,7 +106,7 @@ public class ShoppingListPresenter implements ShoppingListContract.Presenter {
 
     @Override
     public void archiveShoppingList(final ShoppingListViewModel shoppingListViewModel) {
-        compositeDisposable.add(model.archiveShoppingList(shoppingListViewModel)
+        completablesDisposable.add(model.archiveShoppingList(shoppingListViewModel)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action() {
@@ -116,8 +119,11 @@ public class ShoppingListPresenter implements ShoppingListContract.Presenter {
 
     @Override
     public void onDetachView() {
-        if (compositeDisposable != null) {
-            compositeDisposable.dispose();
+        if (flowablesDisposable != null) {
+            flowablesDisposable.dispose();
+        }
+        if (completablesDisposable != null) {
+            completablesDisposable.dispose();
         }
     }
 }
