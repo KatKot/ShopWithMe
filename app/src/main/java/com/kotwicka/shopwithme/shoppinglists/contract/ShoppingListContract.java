@@ -1,6 +1,5 @@
 package com.kotwicka.shopwithme.shoppinglists.contract;
 
-import com.kotwicka.shopwithme.persistence.entity.ShoppingList;
 import com.kotwicka.shopwithme.shoppinglists.model.ShoppingListViewModel;
 
 import java.util.List;
@@ -34,8 +33,11 @@ public interface ShoppingListContract {
 
     interface Model {
         Completable archiveShoppingList(final ShoppingListViewModel shoppingListViewModel);
+
         Completable saveShoppingList(final String name);
+
         Flowable<List<ShoppingListViewModel>> getActiveShoppingLists();
+
         Flowable<List<ShoppingListViewModel>> getArchiveShoppingLists();
     }
 }

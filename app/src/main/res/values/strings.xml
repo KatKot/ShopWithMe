@@ -5,7 +5,6 @@
     <string name="cancel_adding_new_list">Cancel</string>
     <string name="add_list_dialog_fragment_tag">add_list</string>
     <string name="empty_list_name_error">Provide list name</string>
-    <string name="duplicated_list_name_error">List with that name already exists</string>
     <string name="shopping_list_extra">shoppingList</string>
     <string name="add_new_list_item">+ Add new item</string>
     <string name="archive_list_element">ARCHIVE</string>
