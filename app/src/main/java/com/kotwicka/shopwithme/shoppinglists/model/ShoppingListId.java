@@ -1,6 +1,6 @@
 package com.kotwicka.shopwithme.shoppinglists.model;
 
-public final class ShoppingListId {
+public class ShoppingListId {
 
     private long shoppingListId;
 
