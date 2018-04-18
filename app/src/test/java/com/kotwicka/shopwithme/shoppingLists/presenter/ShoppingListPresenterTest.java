@@ -1,4 +1,4 @@
-package com.kotwicka.shopwithme.presenter;
+package com.kotwicka.shopwithme.shoppingLists.presenter;
 
 import com.kotwicka.shopwithme.shoppinglists.contract.ShoppingListContract;
 import com.kotwicka.shopwithme.shoppinglists.model.ShoppingListId;
@@ -122,7 +122,6 @@ public class ShoppingListPresenterTest {
         Mockito.verify(view).onNewShoppingListSaved(id, name);
         Mockito.verify(model).saveShoppingList(name);
     }
-
 
     @Test
     public void shouldDoNothingForInvalidShoppingList() {
