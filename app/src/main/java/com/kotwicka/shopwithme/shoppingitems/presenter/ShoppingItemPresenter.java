@@ -15,6 +15,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class ShoppingItemPresenter implements ShoppingItemContract.Presenter {
 
+    private static final String TAG = ShoppingItemPresenter.class.getSimpleName();
+
     private final ShoppingItemContract.View view;
     private final ShoppingItemContract.Model model;
 
@@ -26,38 +28,41 @@ public class ShoppingItemPresenter implements ShoppingItemContract.Presenter {
     }
 
     @Override
-    public void saveShoppingItem(final long listId, final String shoppingItemName) {
-        Log.d("ShoppingItemsPresenter", "Saving item with name : " + shoppingItemName + " listID: " + listId);
-        compositeDisposable.add(model.saveShoppingItem(listId, shoppingItemName)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        Log.d("ShoppingItemPresenter", "Saved shopping item : " + shoppingItemName);
-                    }
-                }));
-    }
-
-    @Override
     public void loadShoppingItems(final long listId) {
-        Log.d("ShoppingItemsPresenter", "Loading shopping items for listID: " + listId);
         compositeDisposable.add(model.getShoppingItems(listId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<ShoppingItemViewModel>>() {
                     @Override
                     public void accept(List<ShoppingItemViewModel> shoppingItemViewModels) throws Exception {
-                        Log.d("ShoppingItemsPresenter", "Loaded shopping items with size: " + shoppingItemViewModels.size());
+                        Log.d(TAG, String.format("Loaded %d shopping items.", shoppingItemViewModels.size()));
                         view.setShoppingItems(shoppingItemViewModels);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.e("ShoppingItemPreenter", "Could not fetch shopping items", throwable);
+                        Log.e(TAG, "Could not load shopping items.", throwable);
                     }
                 }));
 
+    }
+
+    @Override
+    public void saveShoppingItem(final long listId, final String shoppingItemName) {
+        compositeDisposable.add(model.saveShoppingItem(listId, shoppingItemName)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        Log.d(TAG, String.format("Saved shopping item with name %s.", shoppingItemName));
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e(TAG, String.format("Could not save shopping item with name %s.", shoppingItemName), throwable);
+                    }
+                }));
     }
 
     @Override
@@ -68,7 +73,12 @@ public class ShoppingItemPresenter implements ShoppingItemContract.Presenter {
                 .subscribe(new Action() {
                     @Override
                     public void run() throws Exception {
-                        Log.d("ShoppingItemPresenter", "Deleted element :" + shoppingItemViewModel.getName());
+                        Log.d(TAG, String.format("Deleted shopping item with name %s.", shoppingItemViewModel.getName()));
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.d(TAG, String.format("Could not delete shopping item with name %s.", shoppingItemViewModel.getName()));
                     }
                 }));
     }

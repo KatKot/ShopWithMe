@@ -17,8 +17,6 @@ public interface ShoppingListContract {
 
         void onNewShoppingListSaved(final long id, final String name);
 
-        void showSaveListErrorMessage();
-
         void setShoppingLists(final List<ShoppingListViewModel> shoppingListViewModel);
     }
 

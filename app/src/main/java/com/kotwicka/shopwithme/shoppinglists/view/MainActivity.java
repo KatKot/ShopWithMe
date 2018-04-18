@@ -8,7 +8,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -141,13 +140,7 @@ public class MainActivity extends AppCompatActivity implements ShoppingListTouch
     }
 
     @Override
-    public void showSaveListErrorMessage() {
-
-    }
-
-    @Override
     public void setShoppingLists(List<ShoppingListViewModel> shoppingListViewModel) {
-        Log.d("MAinActivity", "Shopping lists size : " + shoppingListViewModel.size());
         shoppingListAdapter.setLists(shoppingListViewModel);
     }
 

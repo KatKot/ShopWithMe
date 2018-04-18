@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 
 import com.kotwicka.shopwithme.R;
 import com.kotwicka.shopwithme.app.ShopWithMeApp;
@@ -72,13 +71,11 @@ public class ShoppingItemsActivity extends AppCompatActivity implements Shopping
 
     @Override
     public void saveShoppingItem(final String name) {
-        Log.d("ShoppingItemsActivity", "Saving item with name : " + name);
         presenter.saveShoppingItem(shoppingList.getId(), name);
     }
 
     @Override
     public void setShoppingItems(final List<ShoppingItemViewModel> shoppingItems) {
-        Log.d("ShoppingItemsActivity", "Setting Shopping ITems " + shoppingItems.size());
         adapter.setShoppingItems(shoppingItems, shoppingList.isArchived());
     }
 
