@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/active_shopping_lists_menu"
+        android:title="@string/active_lists_menu"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/archived_shopping_lists_menu"
+        android:title="@string/archived_lists_menu"
+        app:showAsAction="never" />
+</menu>

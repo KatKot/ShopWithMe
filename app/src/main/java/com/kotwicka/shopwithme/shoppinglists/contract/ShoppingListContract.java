@@ -27,7 +27,7 @@ public interface ShoppingListContract {
 
         void saveShoppingList(final String name);
 
-        void fetchActiveShoppingLists();
+        void fetchShoppingLists(final boolean shouldFetchActiveLists);
 
         void archiveShoppingList(final ShoppingListViewModel shoppingListViewModel);
 
@@ -38,5 +38,6 @@ public interface ShoppingListContract {
         Completable archiveShoppingList(final ShoppingListViewModel shoppingListViewModel);
         Completable saveShoppingList(final String name);
         Flowable<List<ShoppingListViewModel>> getActiveShoppingLists();
+        Flowable<List<ShoppingListViewModel>> getArchiveShoppingLists();
     }
 }

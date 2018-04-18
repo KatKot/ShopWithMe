@@ -48,4 +48,21 @@ public class ShoppingListModel implements ShoppingListContract.Model {
                     }
                 });
     }
+
+    @Override
+    public Flowable<List<ShoppingListViewModel>> getArchiveShoppingLists() {
+        return shoppingListRepository.getArchivedShoppingLists()
+                .flatMap(new Function<List<ShoppingList>, Flowable<List<ShoppingListViewModel>>>() {
+                    @Override
+                    public Flowable<List<ShoppingListViewModel>> apply(List<ShoppingList> shoppingLists) throws Exception {
+                        return Flowable.fromIterable(shoppingLists)
+                                .map(new Function<ShoppingList, ShoppingListViewModel>() {
+                                    @Override
+                                    public ShoppingListViewModel apply(ShoppingList shoppingList) throws Exception {
+                                        return new ShoppingListViewModel(shoppingList.getName(), shoppingList.getCreationDate(), shoppingList.getId());
+                                    }
+                                }).toList().toFlowable();
+                    }
+                });
+    }
 }

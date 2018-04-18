@@ -11,4 +11,6 @@
     <string name="add_new_list_item">+ Add new item</string>
     <string name="archive_list_element">ARCHIVE</string>
     <string name="delete_list_element">DELETE</string>
+    <string name="active_lists_menu">Active lists</string>
+    <string name="archived_lists_menu">Archived lists</string>
 </resources>

@@ -61,8 +61,29 @@ public class ShoppingListPresenter implements ShoppingListContract.Presenter {
     }
 
     @Override
-    public void fetchActiveShoppingLists() {
+    public void fetchShoppingLists(final boolean shouldFetchActiveLists) {
         Log.d("Presenter", "Fetching..");
+        if (shouldFetchActiveLists) {
+            fetchActiveShoppingLists();
+        } else {
+            fetchArchivedShoppingLists();
+        }
+
+    }
+
+    private void fetchArchivedShoppingLists() {
+        compositeDisposable.add(model.getArchiveShoppingLists()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<ShoppingListViewModel>>() {
+                    @Override
+                    public void accept(List<ShoppingListViewModel> shoppingListViewModels) throws Exception {
+                        view.setShoppingLists(shoppingListViewModels);
+                    }
+                }));
+    }
+
+    private void fetchActiveShoppingLists() {
         compositeDisposable.add(model.getActiveShoppingLists()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

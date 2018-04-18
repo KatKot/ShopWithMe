@@ -9,6 +9,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements ShoppingListTouch
     private TextInputLayout addNewListTextInputLayout;
     private EditText addNewListEditText;
     private AddNewShoppingListDialog addNewShoppingListDialog;
+    private ItemTouchHelper itemTouchHelper;
 
     private ShoppingListAdapter shoppingListAdapter;
 
@@ -48,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements ShoppingListTouch
         ButterKnife.bind(this);
         ShopWithMeApp.get().withShoppingListComponent(this).inject(this);
         initializeViews();
-        fetchShoppingLists();
+        fetchShoppingLists(true);
     }
 
     @Override
@@ -63,12 +66,34 @@ public class MainActivity extends AppCompatActivity implements ShoppingListTouch
         recyclerView.setAdapter(shoppingListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        new ItemTouchHelper(new ShoppingListTouchHelper(0, ItemTouchHelper.LEFT, this)).attachToRecyclerView(recyclerView);
+        itemTouchHelper = new ItemTouchHelper(new ShoppingListTouchHelper(0, ItemTouchHelper.LEFT, this));
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
-    private void fetchShoppingLists() {
-        Log.d("MAinActivity", "Fetching...");
-        presenter.fetchActiveShoppingLists();
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.active_shopping_lists_menu:
+                itemTouchHelper.attachToRecyclerView(recyclerView);
+                fetchShoppingLists(true);
+                return true;
+            case R.id.archived_shopping_lists_menu:
+                itemTouchHelper.attachToRecyclerView(null);
+                fetchShoppingLists(false);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void fetchShoppingLists(final boolean shouldFetchActiveLists) {
+        presenter.fetchShoppingLists(shouldFetchActiveLists);
     }
 
     public void showAddNewListDialog(final View view) {
