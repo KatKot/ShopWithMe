@@ -13,7 +13,7 @@ import com.kotwicka.shopwithme.shoppingitems.adapter.ShoppingItemAdapter;
 import com.kotwicka.shopwithme.shoppingitems.contract.ShoppingItemContract;
 import com.kotwicka.shopwithme.shoppingitems.model.ShoppingItemViewModel;
 import com.kotwicka.shopwithme.shoppingitems.view.helper.ShoppingItemTouchHelper;
-import com.kotwicka.shopwithme.shoppinglists.view.helper.ShoppingListTouchHelper;
+import com.kotwicka.shopwithme.shoppinglists.model.ShoppingListViewModel;
 
 import java.util.List;
 
@@ -31,7 +31,8 @@ public class ShoppingItemsActivity extends AppCompatActivity implements Shopping
     ShoppingItemContract.Presenter presenter;
 
     private ShoppingItemAdapter adapter;
-    private long shoppingListId;
+    private ShoppingListViewModel shoppingList;
+    private ItemTouchHelper itemTouchHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +42,8 @@ public class ShoppingItemsActivity extends AppCompatActivity implements Shopping
         ButterKnife.bind(this);
         ShopWithMeApp.get().withShoppingItemComponent(this).inject(this);
 
-        this.shoppingListId = getIntent().getLongExtra(getString(R.string.shopping_list_id_extra), 0);
-        getSupportActionBar().setTitle(getIntent().getStringExtra(getString(R.string.shopping_list_name_extra)));
+        this.shoppingList = getIntent().getParcelableExtra(getString(R.string.shopping_list_extra));
+        getSupportActionBar().setTitle(shoppingList.getName());
         initializeViews();
         initializeData();
     }
@@ -55,34 +56,37 @@ public class ShoppingItemsActivity extends AppCompatActivity implements Shopping
     }
 
     private void initializeData() {
-        presenter.loadShoppingItems(shoppingListId);
+        presenter.loadShoppingItems(shoppingList.getId());
     }
 
     private void initializeViews() {
         adapter = new ShoppingItemAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        new ItemTouchHelper(new ShoppingItemTouchHelper(0, ItemTouchHelper.LEFT, this)).attachToRecyclerView(recyclerView);
+        if (!shoppingList.isArchived()) {
+            itemTouchHelper = new ItemTouchHelper(new ShoppingItemTouchHelper(0, ItemTouchHelper.LEFT, this));
+            itemTouchHelper.attachToRecyclerView(recyclerView);
+        }
     }
 
 
     @Override
     public void saveShoppingItem(final String name) {
         Log.d("ShoppingItemsActivity", "Saving item with name : " + name);
-        presenter.saveShoppingItem(shoppingListId, name);
+        presenter.saveShoppingItem(shoppingList.getId(), name);
     }
 
     @Override
     public void setShoppingItems(final List<ShoppingItemViewModel> shoppingItems) {
         Log.d("ShoppingItemsActivity", "Setting Shopping ITems " + shoppingItems.size());
-        adapter.setShoppingItems(shoppingItems);
+        adapter.setShoppingItems(shoppingItems, shoppingList.isArchived());
     }
 
 
     @Override
     public void onSwiped(final int position) {
         if (position < adapter.getItemCount()) {
-            presenter.deleteShoppingListItem(adapter.get(position), shoppingListId);
+            presenter.deleteShoppingListItem(adapter.get(position), shoppingList.getId());
         }
     }
 }

@@ -3,7 +3,6 @@ package com.kotwicka.shopwithme.shoppingitems.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,10 +55,12 @@ public class ShoppingItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    public void setShoppingItems(final List<ShoppingItemViewModel> newShoppingItems) {
+    public void setShoppingItems(final List<ShoppingItemViewModel> newShoppingItems, final boolean isArchived) {
         shoppingItems.clear();
         notifyDataSetChanged();
-        addStubItem();
+        if (!isArchived) {
+            addStubItem();
+        }
         for (ShoppingItemViewModel shoppingItem : newShoppingItems) {
             add(shoppingItem);
         }
@@ -67,10 +68,8 @@ public class ShoppingItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public void add(final ShoppingItemViewModel item) {
         final int index = shoppingItems.size() - 1 > 0 ? shoppingItems.size() - 1 : 0;
-        Log.d("INDEX", "Added new element at index : " + index);
         shoppingItems.add(index, item);
         notifyItemInserted(index);
-        Log.d("INDEX", "Elements in adapter : " + shoppingItems.size());
     }
 
     @Override

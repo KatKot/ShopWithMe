@@ -22,6 +22,8 @@ import com.kotwicka.shopwithme.shoppinglists.model.ShoppingListViewModel;
 import com.kotwicka.shopwithme.shoppinglists.view.adapter.ShoppingListAdapter;
 import com.kotwicka.shopwithme.shoppinglists.view.helper.ShoppingListTouchHelper;
 
+import org.joda.time.DateTime;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements ShoppingListTouch
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         ShopWithMeApp.get().withShoppingListComponent(this).inject(this);
+        getSupportActionBar().setTitle(getString(R.string.active_lists_menu));
         initializeViews();
         fetchShoppingLists(true);
     }
@@ -82,10 +85,12 @@ public class MainActivity extends AppCompatActivity implements ShoppingListTouch
             case R.id.active_shopping_lists_menu:
                 itemTouchHelper.attachToRecyclerView(recyclerView);
                 fetchShoppingLists(true);
+                getSupportActionBar().setTitle(getString(R.string.active_lists_menu));
                 return true;
             case R.id.archived_shopping_lists_menu:
                 itemTouchHelper.attachToRecyclerView(null);
                 fetchShoppingLists(false);
+                getSupportActionBar().setTitle(getString(R.string.archived_lists_menu));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -132,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements ShoppingListTouch
     @Override
     public void onNewShoppingListSaved(final long id, final String name) {
         addNewShoppingListDialog.dismiss();
-        startShoppingItemActivity(name, id);
+        startShoppingItemActivity(new ShoppingListViewModel(name, DateTime.now(), id, false));
     }
 
     @Override
@@ -147,14 +152,13 @@ public class MainActivity extends AppCompatActivity implements ShoppingListTouch
     }
 
     @Override
-    public void onShoppingListClicked(final String name, final long id) {
-        startShoppingItemActivity(name, id);
+    public void onShoppingListClicked(final ShoppingListViewModel shoppingList) {
+        startShoppingItemActivity(shoppingList);
     }
 
-    private void startShoppingItemActivity(final String name, final long id) {
+    private void startShoppingItemActivity(final ShoppingListViewModel shoppingList) {
         final Intent intent = new Intent(this, ShoppingItemsActivity.class);
-        intent.putExtra(getString(R.string.shopping_list_id_extra), id);
-        intent.putExtra(getString(R.string.shopping_list_name_extra), name);
+        intent.putExtra(getString(R.string.shopping_list_extra), shoppingList);
         startActivity(intent);
     }
 

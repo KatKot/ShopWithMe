@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 public class ShoppingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public interface OnShoppingListClickedListener {
-        void onShoppingListClicked(final String name, final long id);
+        void onShoppingListClicked(final ShoppingListViewModel shoppingList);
     }
 
     private final OnShoppingListClickedListener listener;
@@ -86,7 +86,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onShoppingListClicked(shoppingListViewModel.getName(), shoppingListViewModel.getId());
+                    listener.onShoppingListClicked(shoppingListViewModel);
                 }
             });
         }

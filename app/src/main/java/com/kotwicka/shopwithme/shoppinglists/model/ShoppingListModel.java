@@ -42,7 +42,7 @@ public class ShoppingListModel implements ShoppingListContract.Model {
                                 .map(new Function<ShoppingList, ShoppingListViewModel>() {
                                     @Override
                                     public ShoppingListViewModel apply(ShoppingList shoppingList) throws Exception {
-                                        return new ShoppingListViewModel(shoppingList.getName(), shoppingList.getCreationDate(), shoppingList.getId());
+                                        return new ShoppingListViewModel(shoppingList.getName(), shoppingList.getCreationDate(), shoppingList.getId(), shoppingList.isArchived());
                                     }
                                 }).toList().toFlowable();
                     }
@@ -59,7 +59,7 @@ public class ShoppingListModel implements ShoppingListContract.Model {
                                 .map(new Function<ShoppingList, ShoppingListViewModel>() {
                                     @Override
                                     public ShoppingListViewModel apply(ShoppingList shoppingList) throws Exception {
-                                        return new ShoppingListViewModel(shoppingList.getName(), shoppingList.getCreationDate(), shoppingList.getId());
+                                        return new ShoppingListViewModel(shoppingList.getName(), shoppingList.getCreationDate(), shoppingList.getId(), shoppingList.isArchived());
                                     }
                                 }).toList().toFlowable();
                     }
