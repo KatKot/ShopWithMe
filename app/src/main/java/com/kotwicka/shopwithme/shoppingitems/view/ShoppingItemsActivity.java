@@ -8,7 +8,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.kotwicka.shopwithme.R;
 import com.kotwicka.shopwithme.app.ShopWithMeApp;
-import com.kotwicka.shopwithme.shoppingitems.adapter.ShoppingItemAdapter;
+import com.kotwicka.shopwithme.shoppingitems.view.adapter.ShoppingItemAdapter;
 import com.kotwicka.shopwithme.shoppingitems.contract.ShoppingItemContract;
 import com.kotwicka.shopwithme.shoppingitems.model.ShoppingItemViewModel;
 import com.kotwicka.shopwithme.shoppingitems.view.helper.ShoppingItemTouchHelper;

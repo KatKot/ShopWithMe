@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
-import com.kotwicka.shopwithme.shoppingitems.adapter.ShoppingItemAdapter;
+import com.kotwicka.shopwithme.shoppingitems.view.adapter.ShoppingItemAdapter;
 
 public class ShoppingItemTouchHelper extends ItemTouchHelper.SimpleCallback {
 

@@ -1,4 +1,4 @@
-package com.kotwicka.shopwithme.shoppingitems.adapter;
+package com.kotwicka.shopwithme.shoppingitems.view.adapter;
 
 public enum ViewHolderType {
 
