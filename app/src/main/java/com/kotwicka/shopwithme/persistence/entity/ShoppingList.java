@@ -22,6 +22,28 @@ public final class ShoppingList {
     @ColumnInfo(name = "is_archived")
     private boolean isArchived;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ShoppingList that = (ShoppingList) o;
+
+        if (id != that.id) return false;
+        if (isArchived != that.isArchived) return false;
+        if (!name.equals(that.name)) return false;
+        return creationDate.equals(that.creationDate);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + name.hashCode();
+        result = 31 * result + creationDate.hashCode();
+        result = 31 * result + (isArchived ? 1 : 0);
+        return result;
+    }
+
     public long getId() {
         return id;
     }
