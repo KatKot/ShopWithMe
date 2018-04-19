@@ -3,7 +3,6 @@ package com.kotwicka.shopwithme.persistence.repository;
 import com.kotwicka.shopwithme.persistence.dao.ShoppingListDao;
 import com.kotwicka.shopwithme.persistence.db.ShoppingDatabase;
 import com.kotwicka.shopwithme.persistence.entity.ShoppingList;
-import com.kotwicka.shopwithme.persistence.entity.ShoppingListItem;
 import com.kotwicka.shopwithme.shoppinglists.model.ShoppingListId;
 
 import org.assertj.core.util.Lists;
