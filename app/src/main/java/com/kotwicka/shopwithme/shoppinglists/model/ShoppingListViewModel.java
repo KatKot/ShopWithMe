@@ -20,6 +20,28 @@ public class ShoppingListViewModel implements Parcelable {
         this.isArchived = isArchived;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ShoppingListViewModel that = (ShoppingListViewModel) o;
+
+        if (id != that.id) return false;
+        if (isArchived != that.isArchived) return false;
+        if (!name.equals(that.name)) return false;
+        return creationDate.equals(that.creationDate);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + creationDate.hashCode();
+        result = 31 * result + (int) (id ^ (id >>> 32));
+        result = 31 * result + (isArchived ? 1 : 0);
+        return result;
+    }
+
     protected ShoppingListViewModel(Parcel in) {
         name = in.readString();
         id = in.readLong();

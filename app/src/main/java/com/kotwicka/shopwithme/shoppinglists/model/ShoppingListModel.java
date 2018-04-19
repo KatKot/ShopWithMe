@@ -20,7 +20,7 @@ public class ShoppingListModel implements ShoppingListContract.Model {
 
     @Override
     public Completable archiveShoppingList(final ShoppingListViewModel shoppingListViewModel) {
-        final ShoppingList shoppingList = ShoppingListCreator.fromVieModel(shoppingListViewModel);
+        final ShoppingList shoppingList = ShoppingListCreator.fromViewModel(shoppingListViewModel);
         shoppingList.setArchived(true);
         return shoppingListRepository.updateShoppingList(shoppingList);
     }
