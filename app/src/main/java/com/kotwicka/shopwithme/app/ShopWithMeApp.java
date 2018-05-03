@@ -8,6 +8,7 @@ import com.kotwicka.shopwithme.shoppingitems.contract.ShoppingItemContract;
 import com.kotwicka.shopwithme.shoppinglists.ShoppingListComponent;
 import com.kotwicka.shopwithme.shoppinglists.ShoppingListModule;
 import com.kotwicka.shopwithme.shoppinglists.contract.ShoppingListContract;
+import com.squareup.leakcanary.LeakCanary;
 
 public class ShopWithMeApp extends Application {
 
@@ -19,6 +20,10 @@ public class ShopWithMeApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            return;
+        }
+        LeakCanary.install(this);
         INSTANCE = this;
         this.applicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(INSTANCE))

@@ -32,6 +32,8 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements ShoppingListTouchHelper.OnSwipedListener, AddNewShoppingListDialog.OnClickAddNewShoppingListListener, ShoppingListAdapter.OnShoppingListClickedListener, ShoppingListContract.View {
 
+    private static final String DIALOG_FRAGMENT_KEY = "new_list_dialog";
+
     @BindView(R.id.shopping_lists_rv)
     RecyclerView recyclerView;
 
@@ -54,6 +56,22 @@ public class MainActivity extends AppCompatActivity implements ShoppingListTouch
         getSupportActionBar().setTitle(getString(R.string.active_lists_menu));
         initializeViews();
         fetchShoppingLists(true);
+        restoreFragmentDialog(savedInstanceState);
+    }
+
+    private void restoreFragmentDialog(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            addNewShoppingListDialog = (AddNewShoppingListDialog) getSupportFragmentManager().getFragment(savedInstanceState, DIALOG_FRAGMENT_KEY);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (addNewShoppingListDialog != null && addNewShoppingListDialog.isAdded()) {
+            getSupportFragmentManager().putFragment(outState, DIALOG_FRAGMENT_KEY, addNewShoppingListDialog);
+        }
+
     }
 
     @Override

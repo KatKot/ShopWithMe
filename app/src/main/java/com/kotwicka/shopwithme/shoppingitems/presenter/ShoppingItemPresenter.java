@@ -17,7 +17,7 @@ public class ShoppingItemPresenter implements ShoppingItemContract.Presenter {
 
     private static final String TAG = ShoppingItemPresenter.class.getSimpleName();
 
-    private final ShoppingItemContract.View view;
+    private ShoppingItemContract.View view;
     private final ShoppingItemContract.Model model;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -88,6 +88,7 @@ public class ShoppingItemPresenter implements ShoppingItemContract.Presenter {
         if (compositeDisposable != null) {
             compositeDisposable.dispose();
         }
+        view = null;
     }
 
 }

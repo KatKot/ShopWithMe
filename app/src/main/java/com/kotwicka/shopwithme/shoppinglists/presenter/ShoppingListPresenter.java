@@ -20,7 +20,7 @@ public class ShoppingListPresenter implements ShoppingListContract.Presenter {
 
     private static final String TAG = ShoppingListPresenter.class.getSimpleName();
 
-    private final ShoppingListContract.View view;
+    private ShoppingListContract.View view;
     private final ShoppingListContract.Model model;
     private final ShoppingListId shoppingListId;
 
@@ -137,5 +137,6 @@ public class ShoppingListPresenter implements ShoppingListContract.Presenter {
         if (completableDisposable != null) {
             completableDisposable.dispose();
         }
+        this.view = null;
     }
 }
